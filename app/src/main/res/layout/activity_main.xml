@@ -94,6 +94,7 @@
             android:layout_height="wrap_content"
             android:background="#80FF0000"
             android:onClick="pickedChoice"
+            android:tag="0"
             android:text="Button"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1" />
@@ -103,6 +104,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#802EFD00"
+            android:onClick="pickedChoice"
+            android:tag="1"
             android:text="Button"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1" />
@@ -112,6 +115,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#800037FF"
+            android:onClick="pickedChoice"
+            android:tag="2"
             android:text="Button"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1" />
@@ -121,6 +126,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#80FFE600"
+            android:onClick="pickedChoice"
+            android:tag="3"
             android:text="Button"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1" />

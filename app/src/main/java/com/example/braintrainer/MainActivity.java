@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.net.Inet4Address;
+
 public class MainActivity extends AppCompatActivity {
 
     //all buttons
@@ -17,23 +19,35 @@ public class MainActivity extends AppCompatActivity {
     TextView timeView, problemView, scoreView;
 
     // variables
-    int a, b, answer;
+    int a, b, answer, correctAnswer, totalAnswer;
     int[] choiceArray = {0,0,0,0};
 
+    public boolean hasInChoiceArray(int target, int index){
+        for(int i = 0; i < 4; i++){
+            if(choiceArray[i] == target && index != i)
+                return true;
+        }
+        return false;
+    }
+
     public void newProblem(){
-        a = (int) Math.ceil(Math.random()*10);
-        b = (int) Math.ceil(Math.random()*10);
+        a = (int) Math.ceil(Math.random()*30);
+        b = (int) Math.ceil(Math.random()*30);
         answer = a + b;
 
         choiceArray[(int) (Math.random()*4)] = answer;
         for(int i = 0; i < 4; i++) {
             if(choiceArray[i] != answer)
-                choiceArray[i] = (int) Math.ceil(Math.random()*answer) + answer/2;
+                do {
+                    choiceArray[i] = (int) Math.ceil(Math.random() * answer) + answer / 2;
+                } while(choiceArray[i] == answer || hasInChoiceArray(choiceArray[i], i));
         }
     }
 
     public void updateDisplay(){
         problemView.setText(a+" + "+b);
+
+        scoreView.setText(correctAnswer+"/"+totalAnswer);
 
         button1.setText(Integer.toString(choiceArray[0]));
         button2.setText(Integer.toString(choiceArray[1]));
@@ -44,7 +58,15 @@ public class MainActivity extends AppCompatActivity {
     public void pickedChoice(View view) {
         Log.i("Button", "It is working");
 
+        // Check if selected answer is correct or not, and score them
+        int index = Integer.parseInt(view.getTag().toString());
+        if(choiceArray[index] == answer)
+            correctAnswer += 1;
+        totalAnswer += 1;
 
+        // Generate new problem
+        newProblem();
+        updateDisplay();
     }
 
     @Override
@@ -58,16 +80,14 @@ public class MainActivity extends AppCompatActivity {
         button3 = (Button) findViewById(R.id.button3);
         button4 = (Button) findViewById(R.id.button4);
 
-        button1.setTag(0);
-        button2.setTag(1);
-        button3.setTag(2);
-        button4.setTag(3);
-
         //Initizial TextView
         timeView = (TextView) findViewById(R.id.textTime);
         problemView = (TextView) findViewById(R.id.textProblem);
         scoreView = (TextView) findViewById(R.id.textScore);
 
+        //Initizial Variables and new problem
+        correctAnswer = 0;
+        totalAnswer = 0;
         newProblem();
         updateDisplay();
     }
