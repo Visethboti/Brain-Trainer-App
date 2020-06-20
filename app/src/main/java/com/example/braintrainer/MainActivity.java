@@ -12,12 +12,15 @@ import android.widget.TextView;
 import java.net.Inet4Address;
 
 public class MainActivity extends AppCompatActivity {
+    //Time per game (in second) and difficulty (how large the numbers are)
+    int timePerGame = 15;
+    int gameDifficulty = 30; //Game difficulty must be lower than 10
 
     //all buttons
-    Button button1, button2, button3, button4;
+    Button button1, button2, button3, button4, buttonRestart;
 
     // TextViews
-    TextView timeView, problemView, scoreView;
+    TextView timeView, problemView, scoreView, finishView;
 
     // variables
     int a, b, answer, correctAnswer, totalAnswer, secondLeft;
@@ -44,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
     ///////////////////////////////////////////
 
     public void newProblem(){
-        a = (int) Math.ceil(Math.random()*30);
-        b = (int) Math.ceil(Math.random()*30);
+        a = (int) Math.ceil(Math.random()*gameDifficulty);
+        b = (int) Math.ceil(Math.random()*gameDifficulty);
         answer = a + b;
 
         choiceArray[(int) (Math.random()*4)] = answer;
@@ -70,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
         button2.setText(Integer.toString(choiceArray[1]));
         button3.setText(Integer.toString(choiceArray[2]));
         button4.setText(Integer.toString(choiceArray[3]));
+
+        //Hide finish text view
+        finishView.setVisibility(View.INVISIBLE);
     }
 
     public void pickedChoice(View view) {
@@ -93,13 +99,14 @@ public class MainActivity extends AppCompatActivity {
     public void reset() {
         correctAnswer = 0;
         totalAnswer = 0;
-        secondLeft = 30;
+        secondLeft = timePerGame;
         allowGame = true;
         newProblem();
         updateDisplay();
     }
 
     public void restartButtonPressed(View view){
+        buttonRestart.setText("Restart");
         reset();
     }
 
@@ -111,15 +118,19 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 //When time runs out
                 if(secondLeft == 0) {
+                    //update time display
+                    timeView.setText(formatTime(secondLeft));
+
                     allowGame = false;
-                    
+                    finishView.setVisibility(View.VISIBLE);
                 }
 
-                if(secondLeft >= 0 && allowGame) {
+                if(secondLeft > 0 && allowGame) {
                     //update time display
                     timeView.setText(formatTime(secondLeft));
                     secondLeft -= 1;
                 }
+
                 handler.postDelayed(this, 1000);
             }
         };
@@ -138,14 +149,21 @@ public class MainActivity extends AppCompatActivity {
         button2 = (Button) findViewById(R.id.button2);
         button3 = (Button) findViewById(R.id.button3);
         button4 = (Button) findViewById(R.id.button4);
+        buttonRestart = (Button) findViewById(R.id.buttonRestart);
 
         //Initizial TextView
         timeView = (TextView) findViewById(R.id.textTime);
         problemView = (TextView) findViewById(R.id.textProblem);
         scoreView = (TextView) findViewById(R.id.textScore);
+        finishView = (TextView) findViewById(R.id.textFinish);
 
-        //Initizial Variables and new problem
-        reset();
+        //Starting point
+        correctAnswer = 0;
+        totalAnswer = 0;
+        secondLeft = timePerGame;
+        allowGame = false;
+
+        updateDisplay();
         startTimer();
     }
 }
