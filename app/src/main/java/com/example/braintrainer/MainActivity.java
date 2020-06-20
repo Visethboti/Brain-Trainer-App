@@ -33,11 +33,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateDisplay(){
+        problemView.setText(a+" + "+b);
 
+        button1.setText(Integer.toString(choiceArray[0]));
+        button2.setText(Integer.toString(choiceArray[1]));
+        button3.setText(Integer.toString(choiceArray[2]));
+        button4.setText(Integer.toString(choiceArray[3]));
     }
 
     public void pickedChoice(View view) {
         Log.i("Button", "It is working");
+
+
     }
 
     @Override
@@ -51,9 +58,17 @@ public class MainActivity extends AppCompatActivity {
         button3 = (Button) findViewById(R.id.button3);
         button4 = (Button) findViewById(R.id.button4);
 
+        button1.setTag(0);
+        button2.setTag(1);
+        button3.setTag(2);
+        button4.setTag(3);
+
         //Initizial TextView
         timeView = (TextView) findViewById(R.id.textTime);
         problemView = (TextView) findViewById(R.id.textProblem);
         scoreView = (TextView) findViewById(R.id.textScore);
+
+        newProblem();
+        updateDisplay();
     }
 }
