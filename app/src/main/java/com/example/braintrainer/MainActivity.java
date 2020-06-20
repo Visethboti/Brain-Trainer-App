@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     TextView timeView, problemView, scoreView;
 
     // variables
-    int a, b, answer, correctAnswer, totalAnswer;
+    int a, b, answer, correctAnswer, totalAnswer, secondLeft;
     int[] choiceArray = {0,0,0,0};
 
     public boolean hasInChoiceArray(int target, int index){
@@ -69,6 +69,18 @@ public class MainActivity extends AppCompatActivity {
         updateDisplay();
     }
 
+    public void reset() {
+        correctAnswer = 0;
+        totalAnswer = 0;
+        secondLeft = 0;
+        newProblem();
+        updateDisplay();
+    }
+
+    public void restartButtonPressed(View view){
+        reset();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,9 +98,6 @@ public class MainActivity extends AppCompatActivity {
         scoreView = (TextView) findViewById(R.id.textScore);
 
         //Initizial Variables and new problem
-        correctAnswer = 0;
-        totalAnswer = 0;
-        newProblem();
-        updateDisplay();
+        reset();
     }
 }

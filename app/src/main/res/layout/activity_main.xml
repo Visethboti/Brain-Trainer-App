@@ -154,6 +154,7 @@
             android:id="@+id/buttonRestart"
             android:layout_width="121dp"
             android:layout_height="match_parent"
+            android:onClick="restartButtonPressed"
             android:text="Restart" />
     </RelativeLayout>
 
